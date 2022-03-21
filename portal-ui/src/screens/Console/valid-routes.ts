@@ -261,7 +261,7 @@ export const validRoutes = (
           | React.MouseEvent<HTMLDivElement>
       ) => {
         e.preventDefault();
-        window.open("https://docs.min.io/?ref=con", "_blank");
+        window.open("https://www.memolabs.org/#/", "_blank");
       },
     },
   ];
@@ -303,7 +303,7 @@ export const validRoutes = (
           | React.MouseEvent<HTMLDivElement>
       ) => {
         e.preventDefault();
-        window.open("https://docs.min.io/?ref=op", "_blank");
+        window.open("https://www.memolabs.org/#/", "_blank");
       },
     },
   ];

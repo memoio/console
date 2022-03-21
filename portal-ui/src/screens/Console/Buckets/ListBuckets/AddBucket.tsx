@@ -303,21 +303,7 @@ const AddBucket = ({
                   <br />
                   {!distributedSetup && (
                     <Fragment>
-                      <div className={classes.error}>
-                        These features are unavailable in a single-disk setup.
-                        <br />
-                        Please deploy a server in{" "}
-                        <a
-                          href="https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html?ref=con"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Distributed Mode
-                        </a>{" "}
-                        to use these features.
-                      </div>
-                      <br />
-                      <br />
+                      
                     </Fragment>
                   )}
                 </Grid>

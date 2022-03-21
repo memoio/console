@@ -265,21 +265,7 @@ const Groups = ({ classes, setErrorSnackMessage }: IGroupsProps) => {
                     iconComponent={<GroupsIcon />}
                     help={
                       <Fragment>
-                        A group can have one attached IAM policy, where all
-                        users with membership in that group inherit that policy.
-                        Groups support more simplified management of user
-                        permissions on the MinIO Tenant.
-                        <br />
-                        <br />
-                        You can learn more at our{" "}
-                        <a
-                          href="https://docs.min.io/minio/k8s/tutorials/group-management.html?ref=con"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          documentation
-                        </a>
-                        .
+        
                       </Fragment>
                     }
                   />

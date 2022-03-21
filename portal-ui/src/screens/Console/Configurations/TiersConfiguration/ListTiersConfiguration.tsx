@@ -351,23 +351,7 @@ const ListTiersConfiguration = ({
                         iconComponent={<TiersIcon />}
                         help={
                           <Fragment>
-                            Tiers are used by the MinIO Object Lifecycle
-                            Management which allows creating rules for time or
-                            date based automatic transition or expiry of
-                            objects. For object transition, MinIO automatically
-                            moves the object to a configured remote storage
-                            tier.
-                            <br />
-                            <br />
-                            You can learn more at our{" "}
-                            <a
-                              href="https://docs.min.io/minio/baremetal/lifecycle-management/lifecycle-management-overview.html?ref=con"
-                              target="_blank"
-                              rel="noreferrer"
-                            >
-                              documentation
-                            </a>
-                            .
+
                           </Fragment>
                         }
                       />

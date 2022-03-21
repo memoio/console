@@ -315,19 +315,7 @@ const BucketReplicationPanel = ({
             iconComponent={<BucketsIcon />}
             help={
               <Fragment>
-                MinIO supports server-side and client-side replication of
-                objects between source and destination buckets.
-                <br />
-                <br />
-                You can learn more at our{" "}
-                <a
-                  href="https://docs.min.io/minio/baremetal/replication/replication-overview.html?ref=con"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  documentation
-                </a>
-                .
+
               </Fragment>
             }
           />

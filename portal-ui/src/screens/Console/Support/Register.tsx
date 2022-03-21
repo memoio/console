@@ -899,15 +899,7 @@ const Register = ({
                   fontSize: "14px",
                 }}
               >
-                For airgap/firewalled environments it is possible to{" "}
-                <Link
-                  className={classes.link}
-                  href="https://docs.min.io/docs/minio-server-configuration-guide.html?ref=con"
-                  target="_blank"
-                >
-                  configure a proxy
-                </Link>{" "}
-                to connect to SUBNET .
+      
               </Box>
               <Box>
                 {displaySubnetProxy && (
