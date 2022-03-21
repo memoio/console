@@ -36,9 +36,9 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/minio/console/models"
-	"github.com/minio/console/operatorapi/operations/operator_api"
-	"github.com/minio/console/operatorapi/operations/user_api"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/operatorapi/operations/operator_api"
+	"github.com/memoio/console/operatorapi/operations/user_api"
 )
 
 // NewOperatorAPI creates a new Operator instance

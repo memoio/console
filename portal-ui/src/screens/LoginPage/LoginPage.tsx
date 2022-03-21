@@ -148,6 +148,7 @@ const styles = (theme: Theme) =>
         "& .left-logo": {
           "& .min-icon": {
             color: "white",
+            fontSize: 28,
             width: 108,
           },
           marginBottom: 10,
@@ -618,10 +619,10 @@ const Login = ({
           <Grid item className="consoleTextBanner" xs={12}>
             <div className="left-items">
               <div className="left-logo">
-                <LoginMinIOLogo />
+                MEMO
               </div>
               <div className="text-line2">{consoleText}</div>
-              <div className="text-line3">Multi-Cloud Object Storage</div>
+              <div className="text-line3">Memolabs Storage</div>
             </div>
           </Grid>
           <Grid
@@ -631,67 +632,9 @@ const Login = ({
           >
             {loginComponent}
             <div className={classes.learnMore}>
-              <a
-                href="https://docs.min.io/minio/baremetal/console/minio-console.html?ref=con"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Learn more about Console <ArrowRightIcon />
-              </a>
             </div>
           </Grid>
           <Grid item xs={12} className={classes.linkHolder}>
-            <div className={classes.miniLinks}>
-              <a
-                href="https://docs.min.io/?ref=con"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <DocumentationIcon /> Documentation
-              </a>
-              <span className={classes.separator}>|</span>
-              <a
-                href="https://github.com/minio/minio"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <GithubIcon /> Github
-              </a>
-              <span className={classes.separator}>|</span>
-              <a
-                href="https://subnet.min.io/?ref=con"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <SupportMenuIcon /> Support
-              </a>
-              <span className={classes.separator}>|</span>
-              <a
-                href="https://min.io/download/?ref=con"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <DownloadIcon /> Download
-              </a>
-            </div>
-            <div className={clsx(classes.miniLinks, classes.miniLogo)}>
-              <a
-                href="https://github.com/minio/minio/releases"
-                target="_blank"
-                rel="noreferrer"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginBottom: 20,
-                }}
-              >
-                <MinIOTierIconXs /> Latest Version{" "}
-                {!loadingVersion && latestMinIOVersion !== "" && (
-                  <React.Fragment>{latestMinIOVersion}</React.Fragment>
-                )}
-              </a>
-            </div>
           </Grid>
         </Grid>
       </div>

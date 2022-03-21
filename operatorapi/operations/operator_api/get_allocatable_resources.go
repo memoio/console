@@ -27,7 +27,7 @@ import (
 
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // GetAllocatableResourcesHandlerFunc turns a function with the right signature into a get allocatable resources handler

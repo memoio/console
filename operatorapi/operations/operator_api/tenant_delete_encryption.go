@@ -27,7 +27,7 @@ import (
 
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // TenantDeleteEncryptionHandlerFunc turns a function with the right signature into a tenant delete encryption handler

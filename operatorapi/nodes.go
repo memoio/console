@@ -23,13 +23,13 @@ import (
 
 	"github.com/minio/minio-go/v7/pkg/set"
 
-	"github.com/minio/console/operatorapi/operations/operator_api"
+	"github.com/memoio/console/operatorapi/operations/operator_api"
 
-	"github.com/minio/console/cluster"
+	"github.com/memoio/console/cluster"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/minio/console/models"
-	"github.com/minio/console/operatorapi/operations"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/operatorapi/operations"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	v1 "k8s.io/client-go/kubernetes/typed/core/v1"

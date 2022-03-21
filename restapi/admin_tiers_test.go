@@ -22,8 +22,8 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/minio/console/models"
-	"github.com/minio/console/restapi/operations/admin_api"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/restapi/operations/admin_api"
 	"github.com/minio/madmin-go"
 	"github.com/stretchr/testify/assert"
 )

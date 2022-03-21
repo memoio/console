@@ -24,7 +24,7 @@ import (
 	"github.com/minio/minio-go/v7"
 
 	"github.com/go-openapi/swag"
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 	"github.com/minio/madmin-go"
 )
 

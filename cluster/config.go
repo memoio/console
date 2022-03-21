@@ -23,7 +23,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/minio/console/pkg/utils"
+	"github.com/memoio/console/pkg/utils"
 
 	"github.com/minio/pkg/env"
 )

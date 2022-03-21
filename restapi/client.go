@@ -30,11 +30,11 @@ import (
 
 	"errors"
 
-	"github.com/minio/console/models"
-	"github.com/minio/console/pkg"
-	"github.com/minio/console/pkg/auth"
-	"github.com/minio/console/pkg/auth/ldap"
-	xjwt "github.com/minio/console/pkg/auth/token"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/pkg"
+	"github.com/memoio/console/pkg/auth"
+	"github.com/memoio/console/pkg/auth/ldap"
+	xjwt "github.com/memoio/console/pkg/auth/token"
 	mc "github.com/minio/mc/cmd"
 	"github.com/minio/mc/pkg/probe"
 	"github.com/minio/minio-go/v7"

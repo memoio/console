@@ -27,7 +27,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // SetBucketRetentionConfigOKCode is the HTTP code returned for type SetBucketRetentionConfigOK

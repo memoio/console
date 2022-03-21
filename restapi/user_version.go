@@ -21,10 +21,10 @@ import (
 	"time"
 
 	"github.com/go-openapi/runtime/middleware"
-	"github.com/minio/console/models"
-	"github.com/minio/console/pkg/utils"
-	"github.com/minio/console/restapi/operations"
-	"github.com/minio/console/restapi/operations/user_api"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/pkg/utils"
+	"github.com/memoio/console/restapi/operations"
+	"github.com/memoio/console/restapi/operations/user_api"
 )
 
 func registerVersionHandlers(api *operations.ConsoleAPI) {

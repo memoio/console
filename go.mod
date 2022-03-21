@@ -1,4 +1,4 @@
-module github.com/minio/console
+module github.com/memoio/console
 
 go 1.17
 

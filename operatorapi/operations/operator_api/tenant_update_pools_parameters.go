@@ -33,7 +33,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/validate"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // NewTenantUpdatePoolsParams creates a new TenantUpdatePoolsParams object

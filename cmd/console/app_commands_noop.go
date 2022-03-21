@@ -23,8 +23,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/memoio/console/restapi"
 	"github.com/minio/cli"
-	"github.com/minio/console/restapi"
 )
 
 var appCmds = []cli.Command{

@@ -27,7 +27,7 @@ import (
 
 	"github.com/go-openapi/runtime"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // ListBucketEventsOKCode is the HTTP code returned for type ListBucketEventsOK

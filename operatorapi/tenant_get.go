@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/minio/console/cluster"
-	"github.com/minio/console/models"
-	"github.com/minio/console/operatorapi/operations/operator_api"
-	"github.com/minio/console/restapi"
+	"github.com/memoio/console/cluster"
+	"github.com/memoio/console/models"
+	"github.com/memoio/console/operatorapi/operations/operator_api"
+	"github.com/memoio/console/restapi"
 	miniov2 "github.com/minio/operator/pkg/apis/minio.min.io/v2"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )

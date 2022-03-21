@@ -32,7 +32,7 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/validate"
 
-	"github.com/minio/console/models"
+	"github.com/memoio/console/models"
 )
 
 // NewMakeBucketParams creates a new MakeBucketParams object
