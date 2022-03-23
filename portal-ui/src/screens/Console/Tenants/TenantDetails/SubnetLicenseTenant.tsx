@@ -27,14 +27,14 @@ import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
 import { ITenant } from "../ListTenants/types";
 import RBIconButton from "../../Buckets/BucketDetails/SummaryItems/RBIconButton";
-import { SubnetInfo } from "../../License/types";
+
 
 interface ISubnetLicenseTenant {
   classes: any;
   tenant: ITenant | null;
   loadingActivateProduct: any;
   loadingLicenseInfo: boolean;
-  licenseInfo: SubnetInfo | undefined;
+  licenseInfo:  undefined;
   activateProduct: any;
 }
 
@@ -90,170 +90,4 @@ const styles = (theme: Theme) =>
     ...containerForHeader(theme.spacing(4)),
   });
 
-const SubnetLicenseTenant = ({
-  classes,
-  tenant,
-  loadingActivateProduct,
-  loadingLicenseInfo,
-  licenseInfo,
-  activateProduct,
-}: ISubnetLicenseTenant) => {
-  return (
-    <Paper
-      className={
-        tenant && tenant.subnet_license ? classes.licenseContainer : ""
-      }
-    >
-      {tenant && tenant.subnet_license ? (
-        <React.Fragment>
-          <Grid container className={classes.licenseInfo}>
-            <Grid item xs={6}>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                License
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                Commercial License
-              </Typography>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                Organization
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                {tenant.subnet_license.organization}
-              </Typography>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                Registered Capacity
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                {niceBytes(
-                  (tenant.subnet_license.storage_capacity * 1099511627776) // 1 Terabyte = 1099511627776 Bytes
-                    .toString(10)
-                )}
-              </Typography>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                Expiry Date
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                <Moment format="YYYY-MM-DD">
-                  {tenant.subnet_license.expires_at}
-                </Moment>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                Subscription Plan
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                {tenant.subnet_license.plan}
-              </Typography>
-              <Typography
-                variant="button"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoTitle}
-              >
-                Requestor
-              </Typography>
-              <Typography
-                variant="overline"
-                display="block"
-                gutterBottom
-                className={classes.licenseInfoValue}
-              >
-                {tenant.subnet_license.email}
-              </Typography>
-            </Grid>
-            <img
-              className={classes.verifiedIcon}
-              src={"/verified.svg"}
-              alt="verified"
-            />
-          </Grid>
-        </React.Fragment>
-      ) : (
-        !loadingLicenseInfo && (
-          <Grid className={classes.paperContainer}>
-            {!licenseInfo && (
-              <Link
-                to={"/license"}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                className={classes.noUnderLine}
-              >
-                <RBIconButton
-                  tooltip={"Activate Product"}
-                  text={"Activate Product"}
-                  onClick={() => false}
-                  color="primary"
-                  variant={"contained"}
-                />
-              </Link>
-            )}
-            {licenseInfo && tenant && (
-              <RBIconButton
-                disabled={loadingActivateProduct}
-                tooltip={"Attach License"}
-                text={"Attach License"}
-                onClick={() => activateProduct(tenant.namespace, tenant.name)}
-                color="primary"
-                variant={"contained"}
-              />
-            )}
-          </Grid>
-        )
-      )}
-    </Paper>
-  );
-};
 
-export default withStyles(styles)(SubnetLicenseTenant);

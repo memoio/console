@@ -132,13 +132,6 @@ export const validRoutes = (
           component: NavLink,
         },
         {
-          name: "Audit",
-          id: "monitorAudit",
-          to: IAM_PAGES.TOOLS_AUDITLOGS,
-          icon: AuditLogsMenuIcon,
-          component: NavLink,
-        },
-        {
           name: "Trace",
           id: "monitorTrace",
           to: IAM_PAGES.TOOLS_TRACE,
@@ -160,64 +153,6 @@ export const validRoutes = (
           component: NavLink,
         },
       ],
-    },
-    {
-      name: "Support",
-      id: "support",
-      icon: SupportMenuIcon,
-      children: [
-        {
-          name: "Register",
-          id: "register",
-          component: NavLink,
-          icon: RegisterMenuIcon,
-          to: IAM_PAGES.REGISTER_SUPPORT,
-        },
-        {
-          name: "Health",
-          id: "diagnostics",
-          component: NavLink,
-          icon: HealthMenuIcon,
-          to: IAM_PAGES.TOOLS_DIAGNOSTICS,
-        },
-        {
-          name: "Performance",
-          id: "performance",
-          component: NavLink,
-          icon: PerformanceMenuIcon,
-          to: IAM_PAGES.TOOLS_SPEEDTEST,
-        },
-        {
-          name: "Profile",
-          id: "profile",
-          component: NavLink,
-          icon: ProfileMenuIcon,
-          to: IAM_PAGES.PROFILE,
-        },
-
-        // {
-        //   name: "Call Home",
-        //   id: "callhome",
-        //   component: NavLink,
-        //   icon: CallHomeMenuIcon,
-        //   to: IAM_PAGES.CALL_HOME,
-        // },
-        {
-          name: "Inspect",
-          id: "inspectObjects",
-          to: IAM_PAGES.TOOLS_INSPECT,
-          icon: InspectMenuIcon,
-          component: NavLink,
-        },
-      ],
-    },
-    {
-      component: NavLink,
-      to: IAM_PAGES.LICENSE,
-      name: "License",
-      id: "license",
-      icon: LicenseIcon,
-      forceDisplay: true,
     },
     {
       name: "Settings",

@@ -54,7 +54,6 @@ import { IAM_PAGES } from "../../../../common/SecureComponent/permissions";
 
 const TenantYAML = withSuspense(React.lazy(() => import("./TenantYAML")));
 const TenantSummary = withSuspense(React.lazy(() => import("./TenantSummary")));
-const TenantLicense = withSuspense(React.lazy(() => import("./TenantLicense")));
 const PoolsSummary = withSuspense(React.lazy(() => import("./PoolsSummary")));
 const PodsSummary = withSuspense(React.lazy(() => import("./PodsSummary")));
 const TenantLogging = withSuspense(React.lazy(() => import("./TenantLogging")));
@@ -462,10 +461,6 @@ const TenantDetails = ({
                   <Route
                     path={IAM_PAGES.NAMESPACE_TENANT_VOLUMES}
                     component={VolumesSummary}
-                  />
-                  <Route
-                    path={IAM_PAGES.NAMESPACE_TENANT_LICENSE}
-                    component={TenantLicense}
                   />
                   <Route
                     path={IAM_PAGES.NAMESPACE_TENANT_MONITORING}

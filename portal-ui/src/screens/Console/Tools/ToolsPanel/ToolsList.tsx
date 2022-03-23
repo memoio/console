@@ -81,15 +81,6 @@ const ToolsList = ({ classes, features }: IConfigurationOptions) => {
       ),
     },
     {
-      icon: <SearchIcon />,
-      configuration_id: "audit-logs",
-      configuration_label: "Audit Logs",
-      disabled: !hasPermission(
-        CONSOLE_UI_RESOURCE,
-        IAM_PAGES_PERMISSIONS[IAM_PAGES.TOOLS_AUDITLOGS]
-      ),
-    },
-    {
       icon: <WatchIcon />,
       configuration_id: "watch",
       configuration_label: "Watch",

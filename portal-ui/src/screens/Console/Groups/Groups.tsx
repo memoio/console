@@ -288,7 +288,7 @@ const Groups = ({ classes, setErrorSnackMessage }: IGroupsProps) => {
                         A group can have one attached IAM policy, where all
                         users with membership in that group inherit that policy.
                         Groups support more simplified management of user
-                        permissions on the MinIO Tenant.
+                        permissions on the memo Tenant.
                         <SecureComponent
                           resource={CONSOLE_UI_RESOURCE}
                           scopes={[
