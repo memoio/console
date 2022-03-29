@@ -1,7 +1,7 @@
 //go:build operator
 // +build operator
 
-// This file is part of MinIO Console Server
+// This file is part of MemoIO Console Server
 // Copyright (c) 2021 MinIO, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -110,7 +110,7 @@ func buildOperatorServer() (*operatorapi.Server, error) {
 	server := operatorapi.NewServer(api)
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = "MinIO Console Server"
+	parser.ShortDescription = "MemoIO Console Server"
 	parser.LongDescription = swaggerSpec.Spec().Info.Description
 
 	server.ConfigureFlags()

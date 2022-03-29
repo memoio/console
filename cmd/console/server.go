@@ -1,4 +1,4 @@
-// This file is part of MinIO Console Server
+// This file is part of MemoIO Console Server
 // Copyright (c) 2021 MinIO, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ import (
 var serverCmd = cli.Command{
 	Name:    "server",
 	Aliases: []string{"srv"},
-	Usage:   "Start MinIO Console server",
+	Usage:   "Start MemoIO Console server",
 	Action:  StartServer,
 	Flags: []cli.Flag{
 		cli.StringFlag{
@@ -103,7 +103,7 @@ func buildServer() (*restapi.Server, error) {
 	server := restapi.NewServer(api)
 
 	parser := flags.NewParser(server, flags.Default)
-	parser.ShortDescription = "MinIO Console Server"
+	parser.ShortDescription = "MemoIO Console Server"
 	parser.LongDescription = swaggerSpec.Spec().Info.Description
 
 	server.ConfigureFlags()

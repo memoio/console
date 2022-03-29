@@ -1,4 +1,4 @@
-// This file is part of MinIO Console Server
+// This file is part of MemoIO Console Server
 // Copyright (c) 2021 MinIO, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -98,8 +98,8 @@ func newApp(name string) *cli.App {
 	app.Name = name
 	app.Version = pkg.Version + " - " + pkg.ShortCommitID
 	app.Author = "MinIO, Inc."
-	app.Usage = "MinIO Console Server"
-	app.Description = `MinIO Console Server`
+	app.Usage = "MemoIO Console Server"
+	app.Description = `MemoIO Console Server`
 	app.Copyright = "(c) 2021 MinIO, Inc."
 	app.Compiled, _ = time.Parse(time.RFC3339, pkg.ReleaseTime)
 	app.Commands = commands

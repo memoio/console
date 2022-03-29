@@ -1,7 +1,7 @@
 //go:build operator
 // +build operator
 
-// This file is part of MinIO Console Server
+// This file is part of MemoIO Console Server
 // Copyright (c) 2021 MinIO, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
