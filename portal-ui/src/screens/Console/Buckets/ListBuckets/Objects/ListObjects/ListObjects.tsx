@@ -60,7 +60,6 @@ import {
   completeObject,
   openList,
   resetRewind,
-  setLoadingVersions,
   setNewObject,
   setSearchObjects,
   setShowDeletedObjects,
@@ -226,7 +225,6 @@ interface IListObjectsProps {
   setSearchObjects: typeof setSearchObjects;
   setVersionsModeEnabled: typeof setVersionsModeEnabled;
   setShowDeletedObjects: typeof setShowDeletedObjects;
-  setLoadingVersions: typeof setLoadingVersions;
 }
 
 function useInterval(callback: any, delay: number) {
@@ -278,7 +276,6 @@ const ListObjects = ({
   setVersionsModeEnabled,
   showDeleted,
   setShowDeletedObjects,
-  setLoadingVersions,
 }: IListObjectsProps) => {
   const [records, setRecords] = useState<BucketObject[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -741,7 +738,6 @@ const ListObjects = ({
     }
 
     setDetailsOpen(true);
-    setLoadingVersions(true);
     setSelectedInternalPaths(
       `${idElement ? `${encodeFileName(idElement)}` : ``}`
     );
@@ -1101,6 +1097,7 @@ const ListObjects = ({
       icon: <DownloadIcon />,
       tooltip: "Download Selected",
     },
+    /*
     {
       action: openShare,
       label: "Share",
@@ -1108,6 +1105,7 @@ const ListObjects = ({
       icon: <ShareIcon />,
       tooltip: "Share Selected File",
     },
+    */
     {
       action: openPreview,
       label: "Preview",
@@ -1115,6 +1113,7 @@ const ListObjects = ({
       icon: <PreviewIcon />,
       tooltip: "Preview Selected File",
     },
+    /*
     {
       action: () => {
         setDeleteMultipleOpen(true);
@@ -1127,6 +1126,7 @@ const ListObjects = ({
         !displayDeleteObject,
       tooltip: "Delete Selected Files",
     },
+    */
   ];
 
   return (
@@ -1248,11 +1248,7 @@ const ListObjects = ({
                   color="primary"
                   variant={"outlined"}
                   onClick={() => {
-                    if (versionsMode) {
-                      setLoadingVersions(true);
-                    } else {
-                      setLoading(true);
-                    }
+                    setLoading(true);
                   }}
                   disabled={
                     !hasPermission(bucketName, [IAM_SCOPES.S3_LIST_BUCKET]) ||
@@ -1272,22 +1268,6 @@ const ListObjects = ({
                   onChange={handleUploadButton}
                   style={{ display: "none" }}
                   ref={folderUpload}
-                />
-                <UploadFilesButton
-                  bucketName={bucketName}
-                  uploadPath={uploadPath.join("/")}
-                  uploadFileFunction={(closeMenu) => {
-                    if (fileUpload && fileUpload.current) {
-                      fileUpload.current.click();
-                    }
-                    closeMenu();
-                  }}
-                  uploadFolderFunction={(closeMenu) => {
-                    if (folderUpload && folderUpload.current) {
-                      folderUpload.current.click();
-                    }
-                    closeMenu();
-                  }}
                 />
               </Fragment>
             }
@@ -1429,7 +1409,6 @@ const mapDispatchToProps = {
   setSearchObjects,
   setVersionsModeEnabled,
   setShowDeletedObjects,
-  setLoadingVersions,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

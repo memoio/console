@@ -1,4 +1,4 @@
-// This file is part of MinIO Console Server
+// This file is part of MemoIO Console Server
 // Copyright (c) 2021 MinIO, Inc.
 //
 // This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@ import (
 	iampolicy "github.com/minio/pkg/iam/policy"
 )
 
-const globalAppName = "MinIO Console"
+const globalAppName = "MemoIO Console"
 
 // NewAdminClientWithInsecure gives a new madmin client interface either secure or insecure based on parameter
 func NewAdminClientWithInsecure(url, accessKey, secretKey, sessionToken string, insecure bool) (*madmin.AdminClient, *probe.Error) {

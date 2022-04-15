@@ -228,7 +228,7 @@ const ListBuckets = ({
             display={"flex"}
             alignItems={"center"}
             justifyContent={"flex-end"}
-          >
+          >{ /*
             <RBIconButton
               tooltip={
                 bulkSelect ? "Unselect Buckets" : "Select Multiple Buckets"
@@ -304,6 +304,8 @@ const ListBuckets = ({
               variant={"contained"}
               disabled={!canCreateBucket}
             />
+            */
+            }
           </Grid>
         </Grid>
 
