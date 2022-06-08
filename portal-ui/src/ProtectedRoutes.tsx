@@ -56,7 +56,7 @@ const ProtectedRoute = ({
         // check for tenants presence, that indicates we are in operator mode
         if (res.operator) {
           consoleOperatorMode(true);
-          document.title = "MinIO Operator";
+          document.title = "Memo Operator";
         }
       })
       .catch(() => setSessionLoading(false));

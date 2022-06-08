@@ -83,7 +83,9 @@ const ListTenants = React.lazy(
 );
 
 const ErrorLogs = React.lazy(() => import("./Logs/ErrorLogs/ErrorLogs"));
-
+const LogsSearchMain = React.lazy(
+  () => import("./Logs/LogSearch/LogsSearchMain")
+);
 const GroupsDetails = React.lazy(() => import("./Groups/GroupsDetails"));
 
 const Tools = React.lazy(() => import("./Tools/Tools"));
@@ -107,7 +109,7 @@ const Groups = React.lazy(() => import("./Groups/Groups"));
 const TenantDetails = React.lazy(
   () => import("./Tenants/TenantDetails/TenantDetails")
 );
-
+const License = React.lazy(() => import("./License/License"));
 const ConfigurationOptions = React.lazy(
   () => import("./Configurations/ConfigurationPanels/ConfigurationOptions")
 );
@@ -300,6 +302,10 @@ const Console = ({
       path: IAM_PAGES.TOOLS_LOGS,
     },
     {
+      component: LogsSearchMain,
+      path: IAM_PAGES.TOOLS_AUDITLOGS,
+    },
+    {
       component: Health,
       path: IAM_PAGES.HEALTH,
     },
@@ -361,6 +367,11 @@ const Console = ({
       component: Account,
       path: IAM_PAGES.ACCOUNT,
       forceDisplay: true, // user has implicit access to service-accounts
+    },
+    {
+      component: License,
+      path: IAM_PAGES.LICENSE,
+      forceDisplay: true,
     },
   ];
 
@@ -453,6 +464,11 @@ const Console = ({
     {
       component: TenantDetails,
       path: IAM_PAGES.NAMESPACE_TENANT_EVENTS,
+      forceDisplay: true,
+    },
+    {
+      component: License,
+      path: IAM_PAGES.LICENSE,
       forceDisplay: true,
     },
   ];

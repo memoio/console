@@ -48,6 +48,8 @@ const MenuToggle = ({ isOpen, isOperatorMode, onToggle }: MenuToggleProps) => {
         },
         "& .logo": {
           background: "transparent",
+          fontSize: "20",
+          color: "#ffffff",
           "&.wide": {
             flex: "1",
             "& svg": {
@@ -69,7 +71,7 @@ const MenuToggle = ({ isOpen, isOperatorMode, onToggle }: MenuToggleProps) => {
     >
       {isOpen ? (
         <div className={`logo ${stateClsName}`}>
-          {isOperatorMode ? <OperatorLogo /> : <ConsoleLogo />}
+          {isOperatorMode ? <ConsoleLogo/> : <ConsoleLogo/>}
         </div>
       ) : (
         <div className={`logo ${stateClsName}`}>

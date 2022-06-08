@@ -18,8 +18,8 @@ import { connect } from "react-redux";
 import { DialogContentText } from "@mui/material";
 import { setErrorSnackMessage } from "../../../actions";
 import { ErrorResponseHandler } from "../../../common/types";
-import useApi from "../../../screens/Console/Common/Hooks/useApi";
-import ConfirmDialog from "../../../screens/Console/Common/ModalWrapper/ConfirmDialog";
+import useApi from "../Common/Hooks/useApi";
+import ConfirmDialog from "../Common/ModalWrapper/ConfirmDialog";
 import { ConfirmDeleteIcon } from "../../../icons";
 interface IDeleteMultiSAsProps {
   closeDeleteModalAndRefresh: (refresh: boolean) => void;

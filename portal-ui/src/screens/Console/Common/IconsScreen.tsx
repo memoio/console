@@ -15,7 +15,7 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useState } from "react";
-import { containerForHeader } from "../Common/FormComponents/common/styleLibrary";
+import { containerForHeader } from "./FormComponents/common/styleLibrary";
 import { Theme } from "@mui/material/styles";
 import createStyles from "@mui/styles/createStyles";
 import withStyles from "@mui/styles/withStyles";
@@ -341,12 +341,6 @@ const IconsScreen = ({ classes }: IIconsScreenSimple) => {
           <cicons.DeleteIcon />
           <br />
           DeleteIcon
-        </Grid>
-
-        <Grid item xs={3} sm={2} md={1}>
-          <cicons.DeleteNonCurrentIcon />
-          <br />
-          DeleteNonCurrentIcon
         </Grid>
 
         <Grid item xs={3} sm={2} md={1}>
@@ -1087,11 +1081,6 @@ const IconsScreen = ({ classes }: IIconsScreenSimple) => {
           <cicons.LicenseDocIcon />
           <br />
           LicenseDocIcon
-        </Grid>
-        <Grid item xs={3} sm={2} md={1}>
-          <cicons.BackIcon />
-          <br />
-          BackIcon
         </Grid>
       </Grid>
       <h1>Menu Icons</h1>

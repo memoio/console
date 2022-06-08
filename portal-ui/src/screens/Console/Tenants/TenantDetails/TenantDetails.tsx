@@ -54,6 +54,7 @@ import { IAM_PAGES } from "../../../../common/SecureComponent/permissions";
 
 const TenantYAML = withSuspense(React.lazy(() => import("./TenantYAML")));
 const TenantSummary = withSuspense(React.lazy(() => import("./TenantSummary")));
+const TenantLicense = withSuspense(React.lazy(() => import("./TenantLicense")));
 const PoolsSummary = withSuspense(React.lazy(() => import("./PoolsSummary")));
 const PodsSummary = withSuspense(React.lazy(() => import("./PodsSummary")));
 const TenantLogging = withSuspense(React.lazy(() => import("./TenantLogging")));
@@ -327,16 +328,16 @@ const TenantDetails = ({
           closeDeleteModalAndRefresh={closeDeleteModalAndRefresh}
         />
       )}
-
       <PageHeader
         label={
           <Fragment>
-            <BackLink to={IAM_PAGES.TENANTS} label="Tenants" />
+            <Link to={"/tenants"} className={classes.breadcrumLink}>
+              Tenants
+            </Link>
           </Fragment>
         }
-        actions={<React.Fragment />}
       />
-
+      <BackLink to={"/tenants"} label={"Return to Tenants"} />
       <PageLayout className={classes.pageContainer}>
         <Grid item xs={12}>
           <ScreenTitle
@@ -461,6 +462,10 @@ const TenantDetails = ({
                   <Route
                     path={IAM_PAGES.NAMESPACE_TENANT_VOLUMES}
                     component={VolumesSummary}
+                  />
+                  <Route
+                    path={IAM_PAGES.NAMESPACE_TENANT_LICENSE}
+                    component={TenantLicense}
                   />
                   <Route
                     path={IAM_PAGES.NAMESPACE_TENANT_MONITORING}

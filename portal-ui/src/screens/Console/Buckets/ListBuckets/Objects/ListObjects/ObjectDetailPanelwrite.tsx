@@ -1,0 +1,718 @@
+// This file is part of MinIO Console Server
+// Copyright (c) 2022 MinIO, Inc.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU Affero General Public License for more details.
+//
+// You should have received a copy of the GNU Affero General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Box, Button, LinearProgress } from "@mui/material";
+import { withStyles } from "@mui/styles";
+import createStyles from "@mui/styles/createStyles";
+import get from "lodash/get";
+import Grid from "@mui/material/Grid";
+import {
+  actionsTray,
+  buttonsStyles,
+  spacingUtils,
+  textStyleUtils,
+  detailsPanel,
+} from "../../../../Common/FormComponents/common/styleLibrary";
+import { IFileInfo } from "../ObjectDetails/types";
+import { download, extensionPreview } from "../utils";
+import { ErrorResponseHandler } from "../../../../../../common/types";
+import {
+  setErrorSnackMessage,
+  setSnackBarMessage,
+} from "../../../../../../actions";
+import {
+  decodeFileName,
+  encodeFileName,
+  niceBytes,
+  niceBytesInt,
+  niceDaysInt,
+} from "../../../../../../common/utils";
+import { IAM_SCOPES } from "../../../../../../common/SecureComponent/permissions";
+import {
+  completeObject,
+  setNewObject,
+  setVersionsModeEnabled,
+  updateProgress,
+} from "../../../../ObjectBrowser/actions";
+import { AppState } from "../../../../../../store";
+import {
+  LegalHoldIcon,
+  MetadataIcon,
+  ObjectInfoIcon,
+  PreviewIcon,
+  RetentionIcon,
+  TagsIcon,
+  VersionsIcon,
+} from "../../../../../../icons";
+import { InspectMenuIcon } from "../../../../../../icons/SidebarMenus";
+import { ShareIcon, DownloadIcon, DeleteIcon } from "../../../../../../icons";
+import api from "../../../../../../common/api";
+import ShareFile from "../ObjectDetails/ShareFile";
+import SetRetention from "../ObjectDetails/SetRetention";
+import DeleteObject from "./DeleteObject";
+import SetLegalHoldModal from "../ObjectDetails/SetLegalHoldModal";
+import RestoreFileVersion from "../ObjectDetails/RestoreFileVersion";
+import {
+  hasPermission,
+  SecureComponent,
+} from "../../../../../../common/SecureComponent";
+import PreviewFileModal from "../Preview/PreviewFileModal";
+import ObjectMetaData from "../ObjectDetails/ObjectMetaData";
+import ActionsListSection from "./ActionsListSection";
+import { displayFileIconName } from "./utils";
+import TagsModal from "../ObjectDetails/TagsModal";
+import InspectObject from "./InspectObject";
+
+const styles = () =>
+  createStyles({
+    ObjectDetailsTitle: {
+      display: "flex",
+      alignItems: "center",
+    },
+    objectNameContainer: {
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden",
+      alignItems: "center",
+      marginLeft: 10,
+    },
+    headerForSection: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingBottom: 15,
+      borderBottom: "#E2E2E2 2px solid",
+      fontWeight: "bold",
+      fontSize: 18,
+      color: "#000",
+      margin: "20px 22px",
+    },
+    capitalizeFirst: {
+      textTransform: "capitalize",
+    },
+    ...buttonsStyles,
+    ...actionsTray,
+    ...spacingUtils,
+    ...textStyleUtils,
+    ...detailsPanel,
+  });
+
+interface IObjectDetailPanelProps {
+  classes: any;
+  internalPaths: string;
+  bucketName: string;
+  rewindEnabled: boolean;
+  rewindDate: any;
+  bucketToRewind: string;
+  distributedSetup: boolean;
+  versioning: boolean;
+  versionsMode: boolean;
+  selectedVersion: string;
+  onClosePanel: (hardRefresh: boolean) => void;
+  setErrorSnackMessage: typeof setErrorSnackMessage;
+  setSnackBarMessage: typeof setSnackBarMessage;
+  setNewObject: typeof setNewObject;
+  updateProgress: typeof updateProgress;
+  completeObject: typeof completeObject;
+  setVersionsModeEnabled: typeof setVersionsModeEnabled;
+}
+
+const emptyFile: IFileInfo = {
+  is_latest: true,
+  last_modified: "",
+  legal_hold_status: "",
+  name: "",
+  retention_mode: "",
+  retention_until_date: "",
+  size: "0",
+  tags: {},
+  version_id: null,
+};
+
+const ObjectDetailPanel = ({
+  classes,
+  internalPaths,
+  bucketName,
+  distributedSetup,
+  versioning,
+  setErrorSnackMessage,
+  setNewObject,
+  updateProgress,
+  completeObject,
+  versionsMode,
+  selectedVersion,
+  onClosePanel,
+  setVersionsModeEnabled,
+}: IObjectDetailPanelProps) => {
+  const [loadObjectData, setLoadObjectData] = useState<boolean>(true);
+  const [shareFileModalOpen, setShareFileModalOpen] = useState<boolean>(false);
+  const [retentionModalOpen, setRetentionModalOpen] = useState<boolean>(false);
+  const [tagModalOpen, setTagModalOpen] = useState<boolean>(false);
+  const [legalholdOpen, setLegalholdOpen] = useState<boolean>(false);
+  const [inspectModalOpen, setInspectModalOpen] = useState<boolean>(false);
+  const [actualInfo, setActualInfo] = useState<IFileInfo | null>(null);
+  const [allInfoElements, setAllInfoElements] = useState<IFileInfo[]>([]);
+  const [objectToShare, setObjectToShare] = useState<IFileInfo | null>(null);
+  const [versions, setVersions] = useState<IFileInfo[]>([]);
+  const [deleteOpen, setDeleteOpen] = useState<boolean>(false);
+  const [restoreVersionOpen, setRestoreVersionOpen] = useState<boolean>(false);
+  const [previewOpen, setPreviewOpen] = useState<boolean>(false);
+  const [restoreVersion, setRestoreVersion] = useState<string>("");
+  const [totalVersionsSize, setTotalVersionsSize] = useState<number>(0);
+
+  const internalPathsDecoded = decodeFileName(internalPaths) || "";
+  const allPathData = internalPathsDecoded.split("/");
+  const currentItem = allPathData.pop() || "";
+
+  // calculate object name to display
+  let objectNameArray: string[] = [];
+  if (actualInfo) {
+    objectNameArray = actualInfo.name.split("/");
+  }
+
+  useEffect(() => {
+    if (bucketName !== "" && internalPaths) {
+      setLoadObjectData(true);
+    }
+  }, [internalPaths, bucketName]);
+
+  useEffect(() => {
+    if (distributedSetup && allInfoElements.length >= 1) {
+      let infoElement =
+        allInfoElements.find((el: IFileInfo) => el.is_latest) || emptyFile;
+
+      if (selectedVersion !== "") {
+        infoElement =
+          allInfoElements.find(
+            (el: IFileInfo) => el.version_id === selectedVersion
+          ) || emptyFile;
+      }
+
+      setActualInfo(infoElement);
+    }
+  }, [selectedVersion, distributedSetup, allInfoElements]);
+
+  useEffect(() => {
+    if (loadObjectData && internalPaths !== "") {
+      api
+        .invoke(
+          "GET",
+          `/api/v1/buckets/${bucketName}/objects?prefix=${internalPaths}${
+            distributedSetup ? "&with_versions=true" : ""
+          }`
+        )
+        .then((res: IFileInfo[]) => {
+          const result = get(res, "objects", []);
+          if (distributedSetup) {
+            setAllInfoElements(result);
+            setVersions(result);
+            const tVersionSize = result.reduce(
+              (acc: number, currValue: IFileInfo) => {
+                if (currValue?.size) {
+                  return acc + currValue.size;
+                }
+                return acc;
+              },
+              0
+            );
+
+            setTotalVersionsSize(tVersionSize);
+          } else {
+            setActualInfo(result[0]);
+            setVersions([]);
+          }
+
+          setLoadObjectData(false);
+        })
+        .catch((error: ErrorResponseHandler) => {
+          setErrorSnackMessage(error);
+          setLoadObjectData(false);
+        });
+    }
+  }, [
+    loadObjectData,
+    bucketName,
+    internalPaths,
+    setErrorSnackMessage,
+    distributedSetup,
+    selectedVersion,
+  ]);
+
+  let tagKeys: string[] = [];
+
+  if (actualInfo && actualInfo.tags) {
+    tagKeys = Object.keys(actualInfo.tags);
+  }
+
+  const openRetentionModal = () => {
+    setRetentionModalOpen(true);
+  };
+
+  const closeRetentionModal = (updateInfo: boolean) => {
+    setRetentionModalOpen(false);
+    if (updateInfo) {
+      setLoadObjectData(true);
+    }
+  };
+
+  const shareObject = () => {
+    setShareFileModalOpen(true);
+  };
+
+  const closeShareModal = () => {
+    setObjectToShare(null);
+    setShareFileModalOpen(false);
+  };
+
+  const downloadObject = (object: IFileInfo) => {
+    const identityDownload = encodeFileName(
+      `${bucketName}-${object.name}-${new Date().getTime()}-${Math.random()}`
+    );
+
+    setNewObject({
+      bucketName,
+      done: false,
+      instanceID: identityDownload,
+      percentage: 0,
+      prefix: object.name,
+      type: "download",
+      waitingForFile: true,
+    });
+
+    download(
+      bucketName,
+      internalPaths,
+      object.version_id,
+      parseInt(object.size || "0"),
+      (progress) => {
+        updateProgress(identityDownload, progress);
+      },
+      () => {
+        completeObject(identityDownload);
+      }
+    );
+  };
+
+  const closeDeleteModal = (closeAndReload: boolean) => {
+    setDeleteOpen(false);
+
+    if (closeAndReload) {
+      onClosePanel(true);
+    }
+  };
+
+  const closeAddTagModal = (reloadObjectData: boolean) => {
+    setTagModalOpen(false);
+    if (reloadObjectData) {
+      setLoadObjectData(true);
+    }
+  };
+
+  const closeInspectModal = (reloadObjectData: boolean) => {
+    setInspectModalOpen(false);
+    if (reloadObjectData) {
+      setLoadObjectData(true);
+    }
+  };
+
+  const closeLegalholdModal = (reload: boolean) => {
+    setLegalholdOpen(false);
+    if (reload) {
+      setLoadObjectData(true);
+    }
+  };
+
+  const closeRestoreModal = (reloadObjectData: boolean) => {
+    setRestoreVersionOpen(false);
+    setRestoreVersion("");
+
+    if (reloadObjectData) {
+      setLoadObjectData(true);
+    }
+  };
+
+  if (!actualInfo) {
+    return null;
+  }
+
+  const objectName =
+    objectNameArray.length > 0
+      ? objectNameArray[objectNameArray.length - 1]
+      : actualInfo.name;
+
+  const multiActionButtons = [
+    {
+      action: () => {
+        downloadObject(actualInfo);
+      },
+      label: "Download",
+      disabled: !!actualInfo.is_delete_marker,
+      icon: <DownloadIcon />,
+      tooltip: "Download this Object",
+    },
+    /*
+    {
+      action: () => {
+        shareObject();
+      },
+      label: "Share",
+      disabled: !!actualInfo.is_delete_marker,
+      icon: <ShareIcon />,
+      tooltip: "Share this File",
+    },
+    */
+    {
+      action: () => {
+        setPreviewOpen(true);
+      },
+      label: "Preview",
+      disabled:
+        !!actualInfo.is_delete_marker ||
+        extensionPreview(currentItem) === "none",
+      icon: <PreviewIcon />,
+      tooltip: "Preview this File",
+    },
+    /*
+    {
+      action: () => {
+        setLegalholdOpen(true);
+      },
+      label: "Legal Hold",
+      disabled:
+        !!actualInfo.is_delete_marker ||
+        extensionPreview(currentItem) === "none" ||
+        !hasPermission(bucketName, [IAM_SCOPES.S3_PUT_OBJECT_LEGAL_HOLD]) ||
+        selectedVersion !== "",
+      icon: <LegalHoldIcon />,
+      tooltip: "Change Legal Hold rules for this File",
+    },
+    {
+      action: openRetentionModal,
+      label: "Retention",
+      disabled:
+        !!actualInfo.is_delete_marker ||
+        extensionPreview(currentItem) === "none" ||
+        !hasPermission(bucketName, [IAM_SCOPES.S3_GET_OBJECT_RETENTION]) ||
+        selectedVersion !== "",
+      icon: <RetentionIcon />,
+      tooltip: "Change Retention rules for this File",
+    },
+    {
+      action: () => {
+        setTagModalOpen(true);
+      },
+      label: "Tags",
+      disabled:
+        !!actualInfo.is_delete_marker ||
+        extensionPreview(currentItem) === "none" ||
+        selectedVersion !== "",
+      icon: <TagsIcon />,
+      tooltip: "Change Tags for this File",
+    },
+    {
+      action: () => {
+        setInspectModalOpen(true);
+      },
+      label: "Inspect",
+      disabled:
+        !!actualInfo.is_delete_marker ||
+        extensionPreview(currentItem) === "none" ||
+        selectedVersion !== "",
+      icon: <InspectMenuIcon />,
+      tooltip: "Inspect this file",
+    },
+    {
+      action: () => {
+        setVersionsModeEnabled(!versionsMode, objectName);
+      },
+      label: versionsMode ? "Hide Object Versions" : "Display Object Versions",
+      icon: <VersionsIcon />,
+      disabled: !(actualInfo.version_id && actualInfo.version_id !== "null"),
+      tooltip: "Display Versions for this file",
+    },
+    */
+  ];
+
+  const calculateLastModifyTime = (lastModified: string) => {
+    const currentTime = new Date();
+    const modifiedTime = new Date(lastModified);
+
+    const difTime = currentTime.getTime() - modifiedTime.getTime();
+
+    return `${niceDaysInt(difTime, "ms")} ago`;
+  };
+
+  return (
+    <Fragment>
+      {shareFileModalOpen && actualInfo && (
+        <ShareFile
+          open={shareFileModalOpen}
+          closeModalAndRefresh={closeShareModal}
+          bucketName={bucketName}
+          dataObject={objectToShare || actualInfo}
+        />
+      )}
+      {retentionModalOpen && actualInfo && (
+        <SetRetention
+          open={retentionModalOpen}
+          closeModalAndRefresh={closeRetentionModal}
+          objectName={currentItem}
+          objectInfo={actualInfo}
+          bucketName={bucketName}
+        />
+      )}
+      {deleteOpen && (
+        <DeleteObject
+          deleteOpen={deleteOpen}
+          selectedBucket={bucketName}
+          selectedObject={internalPaths}
+          closeDeleteModalAndRefresh={closeDeleteModal}
+          versioning={distributedSetup && versioning}
+        />
+      )}
+      {legalholdOpen && actualInfo && (
+        <SetLegalHoldModal
+          open={legalholdOpen}
+          closeModalAndRefresh={closeLegalholdModal}
+          objectName={actualInfo.name}
+          bucketName={bucketName}
+          actualInfo={actualInfo}
+        />
+      )}
+      {restoreVersionOpen && actualInfo && (
+        <RestoreFileVersion
+          restoreOpen={restoreVersionOpen}
+          bucketName={bucketName}
+          versionID={restoreVersion}
+          objectPath={actualInfo.name}
+          onCloseAndUpdate={closeRestoreModal}
+        />
+      )}
+      {previewOpen && actualInfo && (
+        <PreviewFileModal
+          open={previewOpen}
+          bucketName={bucketName}
+          object={{
+            name: actualInfo.name,
+            version_id: actualInfo.version_id || "null",
+            size: parseInt(actualInfo.size || "0"),
+            content_type: "",
+            last_modified: new Date(actualInfo.last_modified),
+          }}
+          onClosePreview={() => {
+            setPreviewOpen(false);
+          }}
+        />
+      )}
+      {tagModalOpen && actualInfo && (
+        <TagsModal
+          modalOpen={tagModalOpen}
+          bucketName={bucketName}
+          actualInfo={actualInfo}
+          onCloseAndUpdate={closeAddTagModal}
+        />
+      )}
+      {inspectModalOpen && actualInfo && (
+        <InspectObject
+          inspectOpen={inspectModalOpen}
+          volumeName={bucketName}
+          inspectPath={actualInfo.name}
+          closeInspectModalAndRefresh={closeInspectModal}
+        />
+      )}
+
+      {!actualInfo && (
+        <Grid item xs={12}>
+          <LinearProgress />
+        </Grid>
+      )}
+
+      <ActionsListSection
+        title={
+          <div className={classes.ObjectDetailsTitle}>
+            {displayFileIconName(objectName, true)}
+            <span className={classes.objectNameContainer}>{objectName}</span>
+          </div>
+        }
+        items={multiActionButtons}
+      />
+
+      <Grid item xs={12} sx={{ textAlign: "center" }}>
+        {selectedVersion === "" && (
+          <SecureComponent
+            resource={bucketName}
+            scopes={[IAM_SCOPES.S3_DELETE_OBJECT]}
+            matchAll
+            errorProps={{ disabled: true }}
+          >
+            <Button
+              startIcon={<DeleteIcon />}
+              color="secondary"
+              variant={"outlined"}
+              onClick={() => {
+                setDeleteOpen(true);
+              }}
+              disabled={actualInfo.is_delete_marker || selectedVersion !== ""}
+              sx={{
+                width: "calc(100% - 44px)",
+                margin: "8px 0",
+                "& svg.min-icon": {
+                  width: 14,
+                  height: 14,
+                },
+              }}
+            >
+              Delete
+            </Button>
+          </SecureComponent>
+        )}
+      </Grid>
+      <Grid item xs={12} className={classes.headerForSection}>
+        <span>Object Info</span>
+        <ObjectInfoIcon />
+      </Grid>
+      <Box className={classes.detailContainer}>
+        <strong>Name:</strong>
+        <br />
+        {objectName}
+      </Box>
+      {selectedVersion !== "" && (
+        <Box className={classes.detailContainer}>
+          <strong>Version ID:</strong>
+          <br />
+          {selectedVersion}
+        </Box>
+      )}
+      <Box className={classes.detailContainer}>
+        <strong>Size:</strong>
+        <br />
+        {niceBytes(actualInfo.size || "0")}
+      </Box>
+      {actualInfo.version_id &&
+        actualInfo.version_id !== "null" &&
+        selectedVersion === "" && (
+          <Box className={classes.detailContainer}>
+            <strong>Versions:</strong>
+            <br />
+            {versions.length} version{versions.length !== 1 ? "s" : ""},{" "}
+            {niceBytesInt(totalVersionsSize)}
+          </Box>
+        )}
+      {selectedVersion === "" && (
+        <Box className={classes.detailContainer}>
+          <strong>Last Modified:</strong>
+          <br />
+          {calculateLastModifyTime(actualInfo.last_modified)}
+        </Box>
+      )}
+      <Box className={classes.detailContainer}>
+        <strong>ETAG:</strong>
+        <br />
+        {actualInfo.etag || "N/A"}
+      </Box>
+      <Box className={classes.detailContainer}>
+        <strong>Tags:</strong>
+        <br />
+        {tagKeys.length === 0
+          ? "N/A"
+          : tagKeys.map((tagKey, index) => {
+              return (
+                <span key={`key-vs-${index.toString()}`}>
+                  {tagKey}:{get(actualInfo, `tags.${tagKey}`, "")}
+                  {index < tagKeys.length - 1 ? ", " : ""}
+                </span>
+              );
+            })}
+      </Box>
+      <Box className={classes.detailContainer}>
+        <SecureComponent
+          scopes={[IAM_SCOPES.S3_GET_OBJECT_LEGAL_HOLD]}
+          resource={bucketName}
+        >
+          <Fragment>
+            <strong>Legal Hold:</strong>
+            <br />
+            {actualInfo.legal_hold_status ? "On" : "Off"}
+          </Fragment>
+        </SecureComponent>
+      </Box>
+      <Box className={classes.detailContainer}>
+        <SecureComponent
+          scopes={[IAM_SCOPES.S3_GET_OBJECT_RETENTION]}
+          resource={bucketName}
+        >
+          <Fragment>
+            <strong>Retention Policy:</strong>
+            <br />
+            <span className={classes.capitalizeFirst}>
+              {actualInfo.version_id && actualInfo.version_id !== "null" ? (
+                <Fragment>
+                  {actualInfo.retention_mode
+                    ? actualInfo.retention_mode.toLowerCase()
+                    : "None"}
+                </Fragment>
+              ) : (
+                <Fragment>
+                  {actualInfo.retention_mode
+                    ? actualInfo.retention_mode.toLowerCase()
+                    : "None"}
+                </Fragment>
+              )}
+            </span>
+          </Fragment>
+        </SecureComponent>
+      </Box>
+      <Grid item xs={12} className={classes.headerForSection}>
+        <span>Metadata</span>
+        <MetadataIcon />
+      </Grid>
+      <Box className={classes.detailContainer}>
+        {actualInfo ? (
+          <ObjectMetaData
+            bucketName={bucketName}
+            internalPaths={internalPaths}
+            actualInfo={actualInfo}
+            linear
+          />
+        ) : null}
+      </Box>
+    </Fragment>
+  );
+};
+
+const mapStateToProps = ({ objectBrowser, system }: AppState) => ({
+  rewindEnabled: get(objectBrowser, "rewind.rewindEnabled", false),
+  rewindDate: get(objectBrowser, "rewind.dateToRewind", null),
+  bucketToRewind: get(objectBrowser, "rewind.bucketToRewind", ""),
+  distributedSetup: get(system, "distributedSetup", false),
+  versionsMode: get(objectBrowser, "versionsMode", false),
+  selectedVersion: get(objectBrowser, "selectedVersion", ""),
+});
+
+const mapDispatchToProps = {
+  setErrorSnackMessage,
+  setSnackBarMessage,
+  setNewObject,
+  updateProgress,
+  completeObject,
+  setVersionsModeEnabled,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(withStyles(styles)(ObjectDetailPanel));

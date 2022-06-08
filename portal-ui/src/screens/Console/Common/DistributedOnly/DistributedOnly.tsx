@@ -48,6 +48,17 @@ const DistributedOnly = ({ iconComponent, entity }: IDistributedOnly) => {
             >
               <div>This feature is not available for a single-disk setup. </div>
 
+              <div>
+                Please deploy a server in{" "}
+                <a
+                  href="https://docs.min.io/minio/baremetal/installation/deploy-minio-distributed.html?ref=con"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Distributed Mode
+                </a>{" "}
+                to use this feature.
+              </div>
             </Box>
           }
         />

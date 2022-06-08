@@ -249,7 +249,29 @@ const ListPolicies = ({ classes, setErrorSnackMessage }: IPoliciesProps) => {
             iconComponent={<IAMPoliciesIcon />}
             help={
               <Fragment>
-
+                MinIO uses Policy-Based Access Control (PBAC) to define the
+                authorized actions and resources to which an authenticated user
+                has access. Each policy describes one or more actions and
+                conditions that outline the permissions of a user or group of
+                users.
+                <br />
+                <br />
+                MinIO PBAC is built for compatibility with AWS IAM policy
+                syntax, structure, and behavior. The MinIO documentation makes a
+                best-effort to cover IAM-specific behavior and functionality.
+                Consider deferring to the IAM documentation for more complete
+                documentation on AWS IAM-specific topics.
+                <br />
+                <br />
+                You can learn more at our{" "}
+                <a
+                  href="https://docs.min.io/minio/baremetal/security/minio-identity-management/policy-based-access-control.html?ref=con"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  documentation
+                </a>
+                .
               </Fragment>
             }
           />

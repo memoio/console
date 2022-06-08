@@ -25,12 +25,12 @@ import {
   tenantDetailsStyles,
 } from "../../Common/FormComponents/common/styleLibrary";
 import { ITenant } from "../ListTenants/types";
-
+import { SubnetInfo } from "../../License/types";
 import { setErrorSnackMessage } from "../../../../actions";
 import { AppState } from "../../../../store";
 import { setTenantDetailsLoad } from "../actions";
 import { ErrorResponseHandler } from "../../../../common/types";
-
+import SubnetLicenseTenant from "./SubnetLicenseTenant";
 import api from "../../../../common/api";
 import Loader from "../../Common/Loader/Loader";
 
@@ -50,7 +50,80 @@ const styles = (theme: Theme) =>
     ...containerForHeader(theme.spacing(4)),
   });
 
+const TenantLicense = ({
+  classes,
+  tenant,
+  loadingTenant,
+  setTenantDetailsLoad,
+}: ITenantLicense) => {
+  const [licenseInfo, setLicenseInfo] = useState<SubnetInfo>();
+  const [loadingLicenseInfo, setLoadingLicenseInfo] = useState<boolean>(true);
+  const [loadingActivateProduct, setLoadingActivateProduct] =
+    useState<boolean>(false);
 
+  const activateProduct = (namespace: string, tenant: string) => {
+    if (loadingActivateProduct) {
+      return;
+    }
+    setLoadingActivateProduct(true);
+    api
+      .invoke(
+        "POST",
+        `/api/v1/subscription/namespaces/${namespace}/tenants/${tenant}/activate`,
+        {}
+      )
+      .then(() => {
+        setLoadingActivateProduct(false);
+        setTenantDetailsLoad(true);
+        setLoadingLicenseInfo(true);
+      })
+      .catch((err: ErrorResponseHandler) => {
+        setLoadingActivateProduct(false);
+        setErrorSnackMessage(err);
+      });
+  };
+
+  useEffect(() => {
+    if (loadingLicenseInfo) {
+      api
+        .invoke("GET", `/api/v1/subscription/info`)
+        .then((res: SubnetInfo) => {
+          setLicenseInfo(res);
+          setLoadingLicenseInfo(false);
+        })
+        .catch((err: ErrorResponseHandler) => {
+          setLoadingLicenseInfo(false);
+        });
+    }
+  }, [loadingLicenseInfo]);
+
+  return (
+    <Fragment>
+      <h1 className={classes.sectionTitle}>License</h1>
+      {loadingTenant ? (
+        <div className={classes.loaderAlign}>
+          <Loader />
+        </div>
+      ) : (
+        <Fragment>
+          {tenant && (
+            <Grid container>
+              <Grid item xs={12}>
+                <SubnetLicenseTenant
+                  tenant={tenant}
+                  loadingLicenseInfo={loadingLicenseInfo}
+                  loadingActivateProduct={loadingActivateProduct}
+                  licenseInfo={licenseInfo}
+                  activateProduct={activateProduct}
+                />
+              </Grid>
+            </Grid>
+          )}
+        </Fragment>
+      )}
+    </Fragment>
+  );
+};
 
 const mapState = (state: AppState) => ({
   loadingTenant: state.tenants.tenantDetails.loadingTenant,
@@ -62,4 +135,4 @@ const connector = connect(mapState, {
   setTenantDetailsLoad,
 });
 
-
+export default withStyles(styles)(connector(TenantLicense));

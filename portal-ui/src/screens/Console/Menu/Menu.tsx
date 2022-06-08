@@ -35,7 +35,7 @@ import MenuToggle from "./MenuToggle";
 import ConsoleMenuList from "./ConsoleMenuList";
 import { validRoutes } from "../valid-routes";
 
-const drawerWidth = 250;
+const drawerWidth = 245;
 
 const styles = (theme: Theme) =>
   createStyles({

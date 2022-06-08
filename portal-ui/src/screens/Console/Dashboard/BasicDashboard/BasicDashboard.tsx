@@ -170,7 +170,13 @@ const BasicDashboard = ({ usage }: IDashboardProps) => {
                       },
                     }}
                   >
-
+                    <a
+                      href="https://docs.min.io/minio/baremetal/monitoring/metrics-alerts/collect-minio-metrics-using-prometheus.html?ref=con#minio-metrics-collect-using-prometheus"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Read more about Prometheus on our Docs site.
+                    </a>
                   </Box>
                 </Box>
               }

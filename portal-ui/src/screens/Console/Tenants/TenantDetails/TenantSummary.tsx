@@ -29,7 +29,7 @@ import Paper from "@mui/material/Paper";
 import { ITenant } from "../ListTenants/types";
 import UpdateTenantModal from "./UpdateTenantModal";
 import { AppState } from "../../../../store";
-import history from "./../../../../history";
+import history from "../../../../history";
 import { tenantIsOnline } from "../ListTenants/utils";
 import AButton from "../../Common/AButton/AButton";
 import { styled } from "@mui/styles";

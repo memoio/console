@@ -766,7 +766,7 @@ const AddTenant = ({
       <PageHeader label={"Create New Tenant"} />
       <BackLink
         to={"/tenants"}
-        label={"Tenant List"}
+        label={"Return to Tenant List"}
         executeOnClick={resetAddTenantForm}
       />
       <PageLayout>

@@ -18,6 +18,10 @@ import React, { SVGProps } from "react";
 
 const ConsoleLogo = (props: SVGProps<SVGSVGElement>) => {
   return (
+
+    <img src="/memo.png" alt="">
+    </img>
+    /*
     <svg
       {...props}
       className={`min-icon`}
@@ -30,6 +34,7 @@ const ConsoleLogo = (props: SVGProps<SVGSVGElement>) => {
         d=""
       />
     </svg>
+    */
   );
 };
 

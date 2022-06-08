@@ -18,7 +18,6 @@ import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import LogoutIcon from "../../../icons/LogoutIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import {
@@ -29,6 +28,7 @@ import {
 } from "./MenuStyleUtils";
 import MenuItem from "./MenuItem";
 import { useLocation } from "react-router-dom";
+import { BackSettingsIcon } from "../../../icons";
 
 const ConsoleMenuList = ({
   menuItems,
@@ -153,7 +153,7 @@ const ConsoleMenuList = ({
               ...menuItemIconStyles,
             }}
           >
-            <LogoutIcon />
+            <BackSettingsIcon/>
           </ListItemIcon>
           <ListItemText
             primary="Logout"

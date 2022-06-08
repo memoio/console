@@ -328,7 +328,7 @@ const ListUsers = ({ classes, setErrorSnackMessage, history }: IUsersProps) => {
                         and corresponding secret key (password). Clients must
                         authenticate their identity by specifying both a valid
                         access key (username) and the corresponding secret key
-                        (password) of an existing memo user.
+                        (password) of an existing MinIO user.
                         <br />
                         <br />
                         Each user can have one or more assigned policies that
@@ -369,7 +369,7 @@ const ListUsers = ({ classes, setErrorSnackMessage, history }: IUsersProps) => {
                         and corresponding secret key (password). Clients must
                         authenticate their identity by specifying both a valid
                         access key (username) and the corresponding secret key
-                        (password) of an existing memo user.
+                        (password) of an existing MinIO user.
                         <br />
                         <br />
                         Each user can have one or more assigned policies that

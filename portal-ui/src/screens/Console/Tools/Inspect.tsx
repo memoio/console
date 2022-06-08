@@ -20,7 +20,7 @@ import PageHeader from "../Common/PageHeader/PageHeader";
 import PageLayout from "../Common/Layout/PageLayout";
 import InputBoxWrapper from "../Common/FormComponents/InputBoxWrapper/InputBoxWrapper";
 import FormSwitchWrapper from "../Common/FormComponents/FormSwitchWrapper/FormSwitchWrapper";
-import { PasswordKeyIcon } from "../../../icons";
+import { FileBookIcon, PasswordKeyIcon } from "../../../icons";
 import ModalWrapper from "../Common/ModalWrapper/ModalWrapper";
 import { Theme } from "@mui/material/styles";
 import createStyles from "@mui/styles/createStyles";
@@ -59,45 +59,6 @@ const mapDispatchToProps = {
   setErrorSnackMessage,
 };
 const connector = connect(mapState, mapDispatchToProps);
-
-const ExampleBlock = ({
-  volumeVal,
-  pathVal,
-}: {
-  volumeVal: string;
-  pathVal: string;
-}) => {
-  return (
-    <Box className="code-block-container">
-      <Box className="example-code-block">
-        <Box
-          sx={{
-            display: "flex",
-            marginBottom: "5px",
-            flexFlow: {
-              sm: "row",
-              xs: "column",
-            },
-          }}
-        >
-          <label>Volume/bucket Name :</label> <code>{volumeVal}</code>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexFlow: {
-              sm: "row",
-              xs: "column",
-            },
-          }}
-        >
-          <label>Path : </label>
-          <code>{pathVal}</code>
-        </Box>
-      </Box>
-    </Box>
-  );
-};
 
 const Inspect = ({
   classes,
@@ -210,41 +171,10 @@ const Inspect = ({
             entity={"Inspect"}
           />
         ) : (
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              border: "1px solid #eaeaea",
-              padding: {
-                lg: "40px",
-                xs: "15px",
-              },
-              flexWrap: "wrap",
-              gap: {
-                lg: "55px",
-                xs: "20px",
-              },
-              height: {
-                md: "calc(100vh - 120px)",
-                xs: "100%",
-              },
-              flexFlow: {
-                lg: "row",
-                xs: "column",
-              },
-            }}
-          >
+          <Fragment>
             <Box
               sx={{
-                flex: {
-                  md: 2,
-                  xs: 1,
-                },
-                width: {
-                  lg: "auto",
-                  xs: "100%",
-                },
+                border: "1px solid #eaeaea",
                 padding: "25px",
               }}
             >
@@ -351,70 +281,37 @@ const Inspect = ({
             </Box>
             <Box
               sx={{
-                flex: 1,
-                minWidth: {
-                  md: "365px",
-                  xs: "100%",
-                },
-                width: "100%",
+                marginTop: "55px",
               }}
             >
               <HelpBox
-                title={""}
-                iconComponent={null}
+                title={"Inspect"}
+                iconComponent={<FileBookIcon />}
                 help={
                   <Fragment>
                     <Box
                       sx={{
-                        marginTop: "-25px",
-                        fontSize: "16px",
-                        fontWeight: 600,
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-start",
-                        padding: "2px",
+                        marginTop: "15px",
                       }}
                     >
-                      <Box
-                        sx={{
-                          backgroundColor: "#07193E",
-                          height: "15px",
-                          width: "15px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "50%",
-                          marginRight: "18px",
-                          padding: "3px",
-                          "& .min-icon": {
-                            height: "11px",
-                            width: "11px",
-                            fill: "#ffffff",
-                          },
-                        }}
-                      >
-                        <InspectMenuIcon />
-                      </Box>
-                      Learn more about the Inspect feature
+                      Inspect files on MinIO server
                     </Box>
 
                     <Box
                       sx={{
-                        marginTop: "16px",
-                        fontWeight: 600,
-                        fontStyle: "italic",
-                        fontSize: "14px",
+                        marginTop: "15px",
+                        fontWeight: 500,
                       }}
                     >
-                      Examples:
+                      Examples
                     </Box>
 
                     <Box
                       sx={{
                         display: "flex",
                         flexFlow: "column",
-                        fontSize: "14px",
                         flex: "2",
+                        marginTop: "15px",
                         "& .step-number": {
                           color: "#ffffff",
                           height: "25px",
@@ -427,60 +324,20 @@ const Inspect = ({
                         },
 
                         "& .step-row": {
-                          fontSize: "14px",
+                          fontSize: "16px",
                           display: "flex",
                           marginTop: "15px",
                           marginBottom: "15px",
-
-                          "&.step-text": {
-                            fontWeight: 400,
-                          },
-                          "&:before": {
-                            content: "' '",
-                            height: "7px",
-                            width: "7px",
-                            backgroundColor: "#2781B0",
-                            marginRight: "10px",
-                            marginTop: "12px",
-                            flexShrink: 0,
-                          },
-                        },
-
-                        "& .code-block-container": {
-                          flex: "1",
-                          marginTop: "15px",
-                          marginLeft: "35px",
-
-                          "& input": {
-                            color: "#737373",
-                          },
-                        },
-
-                        "& .example-code-block label": {
-                          display: "inline-block",
-                          width: {
-                            sm: "160px",
-                            xs: "100%",
-                          },
-                          fontWeight: 600,
-                          fontSize: "14px",
                         },
 
                         "& code": {
-                          width: {
-                            sm: "100px",
-                            xs: "100%",
-                          },
                           paddingLeft: "10px",
-                          fontFamily: "monospace",
                           paddingRight: "10px",
-                          paddingTop: "3px",
+                          paddingTop: "4px",
                           paddingBottom: "3px",
                           borderRadius: "2px",
-                          border: "1px solid #eaeaea",
-                          fontSize: "10px",
+                          backgroundColor: "#eaeaea",
                           color: "#082146",
-                          fontWeight: 500,
                         },
                         "& .spacer": {
                           marginBottom: "5px",
@@ -495,10 +352,24 @@ const Inspect = ({
                           </div>
                         </Box>
 
-                        <ExampleBlock
-                          pathVal={`test*/xl.meta`}
-                          volumeVal={`test-bucket`}
-                        />
+                        <Box
+                          sx={{
+                            flex: "1",
+                            marginTop: "15px",
+                            marginLeft: "35px",
+                            "& input": {
+                              color: "#737373",
+                            },
+                          }}
+                        >
+                          <Box>
+                            <label>Volume/bucket Name :</label>{" "}
+                            <code>test-bucket</code>
+                            <div className="spacer" />
+                            <label>Path : </label>
+                            <code>test*/xl.meta</code>
+                          </Box>
+                        </Box>
                       </Box>
 
                       <Box>
@@ -509,10 +380,23 @@ const Inspect = ({
                           </div>
                         </Box>
 
-                        <ExampleBlock
-                          pathVal={`test*/xl.meta`}
-                          volumeVal={`test*/*/part.*`}
-                        />
+                        <Box
+                          sx={{
+                            flex: "1",
+                            marginTop: "15px",
+                            marginLeft: "35px",
+                            "& input": {
+                              color: "#737373",
+                            },
+                          }}
+                        >
+                          <Box>
+                            <label>Volume/bucket Name : </label>
+                            <code>test-bucket</code>
+                            <div className="spacer" />
+                            <label>Path :</label> <code>test*/*/part.*</code>
+                          </Box>
+                        </Box>
                       </Box>
                       <Box>
                         <Box className="step-row">
@@ -523,18 +407,30 @@ const Inspect = ({
                             caution.
                           </div>
                         </Box>
-                        <ExampleBlock
-                          pathVal={`test*/xl.meta`}
-                          volumeVal={`test/**`}
-                        />
+
+                        <Box
+                          sx={{
+                            flex: "1",
+                            marginTop: "15px",
+                            marginLeft: "35px",
+                            "& input": {
+                              color: "#737373",
+                            },
+                          }}
+                        >
+                          <Box>
+                            <label>Volume/bucket Name : </label>
+                            <code>test-bucket</code>
+                            <div className="spacer" />
+                            <label>Path :</label> <code>test/**</code>
+                          </Box>
+                        </Box>
                       </Box>
                     </Box>
 
                     <Box
                       sx={{
                         marginTop: "30px",
-                        marginLeft: "15px",
-                        fontSize: "14px",
                       }}
                     >
                       You can learn more at our{" "}
@@ -551,7 +447,7 @@ const Inspect = ({
                 }
               />
             </Box>
-          </Box>
+          </Fragment>
         )}
         {decryptionKey ? (
           <ModalWrapper
@@ -560,20 +456,15 @@ const Inspect = ({
             onClose={onCloseDecKeyModal}
             titleIcon={<PasswordKeyIcon />}
           >
-            <DialogContentText component="div">
+            <DialogContentText>
               <Box>
                 This will be displayed only once. It cannot be recovered.
                 <br />
                 Use secure medium to share this key.
               </Box>
-              <form
-                noValidate
-                onSubmit={() => {
-                  return false;
-                }}
-              >
+              <Box>
                 <KeyRevealer value={decryptionKey} />
-              </form>
+              </Box>
             </DialogContentText>
           </ModalWrapper>
         ) : null}

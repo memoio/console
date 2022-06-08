@@ -19,45 +19,30 @@ import { Link } from "react-router-dom";
 import { Theme } from "@mui/material/styles";
 import createStyles from "@mui/styles/createStyles";
 import withStyles from "@mui/styles/withStyles";
-import { BackIcon } from "../icons";
-import { Box } from "@mui/material";
+import { BackSettingsIcon } from "../icons";
 
 const styles = (theme: Theme) =>
   createStyles({
     link: {
-      display: "inline-block",
+      display: "flex",
       alignItems: "center",
-      justifyContent: "center",
       textDecoration: "none",
-      maxWidth: "40px",
-      "&:active": {
-        color: theme.palette.primary.light,
+      maxWidth: "300px",
+      padding: "2rem 2rem 0rem 2rem",
+      color: theme.palette.primary.light,
+      fontSize: ".8rem",
+      "&:hover": {
+        textDecoration: "underline",
       },
     },
     icon: {
-      marginRight: "11px",
+      marginRight: ".3rem",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      height: "35px",
-      width: "35px",
-      borderRadius: "2px",
-      "&:hover": {
-        background: "rgba(234,237,238)",
-      },
       "& svg.min-icon": {
-        width: "18px",
-        height: "12px",
+        width: 12,
       },
-    },
-    label: {
-      display: "flex",
-      alignItems: "center",
-      height: "35px",
-      padding: "0 0px 0 5px",
-      fontSize: "18px",
-      fontWeight: 600,
-      color: theme.palette.primary.light,
     },
   });
 
@@ -77,27 +62,20 @@ const BackLink = ({
   executeOnClick,
 }: IBackLink) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        alignItems: "center",
+    <Link
+      to={to}
+      className={`${classes.link} ${className ? className : ""}`}
+      onClick={() => {
+        if (executeOnClick) {
+          executeOnClick();
+        }
       }}
     >
-      <Link
-        to={to}
-        className={`${classes.link} ${className ? className : ""}`}
-        onClick={() => {
-          if (executeOnClick) {
-            executeOnClick();
-          }
-        }}
-      >
-        <div className={classes.icon}>
-          <BackIcon />
-        </div>
-      </Link>
+      <div className={classes.icon}>
+        <BackSettingsIcon />
+      </div>
       <div className={classes.label}>{label}</div>
-    </Box>
+    </Link>
   );
 };
 

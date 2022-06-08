@@ -37,7 +37,7 @@ import withStyles from "@mui/styles/withStyles";
 import { Button, LinearProgress } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { modalBasic } from "../Common/FormComponents/common/styleLibrary";
-import { IPolicyItem } from "../Users/types";
+import { IPolicyItem } from "./types";
 import { setModalErrorSnackMessage } from "../../../actions";
 import { ErrorResponseHandler } from "../../../common/types";
 import ModalWrapper from "../Common/ModalWrapper/ModalWrapper";

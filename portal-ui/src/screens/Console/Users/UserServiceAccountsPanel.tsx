@@ -39,7 +39,7 @@ import { AddIcon, DeleteIcon } from "../../../icons";
 import PanelTitle from "../Common/PanelTitle/PanelTitle";
 import RBIconButton from "../Buckets/BucketDetails/SummaryItems/RBIconButton";
 import DeleteMultipleServiceAccounts from "./DeleteMultipleServiceAccounts";
-import { selectSAs } from "../../Console/Configurations/utils";
+import { selectSAs } from "../Configurations/utils";
 import ServiceAccountPolicy from "../Account/ServiceAccountPolicy";
 
 interface IUserServiceAccountsProps {

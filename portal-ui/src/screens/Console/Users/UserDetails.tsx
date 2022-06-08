@@ -16,6 +16,8 @@
 
 import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
+
 import { Theme } from "@mui/material/styles";
 import createStyles from "@mui/styles/createStyles";
 import withStyles from "@mui/styles/withStyles";
@@ -187,7 +189,9 @@ const UserDetails = ({ classes, match }: IUserDetailsProps) => {
       <PageHeader
         label={
           <Fragment>
-            <BackLink label={"User"} to={IAM_PAGES.USERS} />
+            <Link to={"/users"} className={classes.breadcrumLink}>
+              Users
+            </Link>
           </Fragment>
         }
         actions={<React.Fragment></React.Fragment>}
@@ -229,6 +233,7 @@ const UserDetails = ({ classes, match }: IUserDetailsProps) => {
           closeModal={() => setChangeUserPasswordModalOpen(false)}
         />
       )}
+      <BackLink label={"Return to Users"} to={IAM_PAGES.USERS} />
       <PageLayout className={classes.pageContainer}>
         <Grid item xs={12}>
           <ScreenTitle

@@ -60,7 +60,7 @@ const styles = (theme: Theme) =>
       color: "#000",
       fontSize: 18,
       fontWeight: 700,
-      marginLeft: 21,
+      // marginLeft: 34,
       marginTop: 8,
     },
     rightMenu: {
@@ -111,11 +111,13 @@ const PageHeader = ({
           paddingTop: ["15px", "15px", "0", "0"],
         }}
       >
-        {!sidebarOpen && (
+        {/* {!sidebarOpen && (
           <div className={classes.logo}>
+            {operatorMode ?  '' : ''}
             {operatorMode ? <OperatorLogo /> : <ConsoleLogo />}
           </div>
-        )}
+        )} */}
+        <div className={classes.logo}></div>
         <Typography variant="h4" className={classes.labelStyle}>
           {label}
         </Typography>

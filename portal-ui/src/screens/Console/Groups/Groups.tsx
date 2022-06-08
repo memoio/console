@@ -54,7 +54,7 @@ import withSuspense from "../Common/Components/withSuspense";
 import RBIconButton from "../Buckets/BucketDetails/SummaryItems/RBIconButton";
 
 const DeleteGroup = withSuspense(React.lazy(() => import("./DeleteGroup")));
-const AddGroup = withSuspense(React.lazy(() => import("../Groups/AddGroup")));
+const AddGroup = withSuspense(React.lazy(() => import("./AddGroup")));
 const SetPolicy = withSuspense(
   React.lazy(() => import("../Policies/SetPolicy"))
 );
@@ -259,13 +259,27 @@ const Groups = ({ classes, setErrorSnackMessage }: IGroupsProps) => {
                     />
                   </SecureComponent>
                 </Grid>
-                <Grid item xs={12} marginTop={"25px"}>
+                <Grid item xs={12}>
                   <HelpBox
                     title={"Groups"}
                     iconComponent={<GroupsIcon />}
                     help={
                       <Fragment>
-        
+                        A group can have one attached IAM policy, where all
+                        users with membership in that group inherit that policy.
+                        Groups support more simplified management of user
+                        permissions on the MinIO Tenant.
+                        <br />
+                        <br />
+                        You can learn more at our{" "}
+                        <a
+                          href="https://docs.min.io/minio/k8s/tutorials/group-management.html?ref=con"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          documentation
+                        </a>
+                        .
                       </Fragment>
                     }
                   />
@@ -288,7 +302,7 @@ const Groups = ({ classes, setErrorSnackMessage }: IGroupsProps) => {
                         A group can have one attached IAM policy, where all
                         users with membership in that group inherit that policy.
                         Groups support more simplified management of user
-                        permissions on the memo Tenant.
+                        permissions on the MinIO Tenant.
                         <SecureComponent
                           resource={CONSOLE_UI_RESOURCE}
                           scopes={[

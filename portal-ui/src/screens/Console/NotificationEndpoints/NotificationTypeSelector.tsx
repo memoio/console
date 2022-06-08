@@ -44,16 +44,11 @@ const styles = (theme: Theme) =>
 const NotificationTypeSelector = ({ classes }: INotificationTypeSelector) => {
   return (
     <Fragment>
-      <PageHeader
-        label={
-          <Fragment>
-            <BackLink
-              to={IAM_PAGES.NOTIFICATIONS_ENDPOINTS}
-              label="Notification Targets"
-            />
-          </Fragment>
-        }
-        actions={<React.Fragment />}
+      <PageHeader label="Notification Endpoints" />
+      <BackLink
+        to={IAM_PAGES.NOTIFICATIONS_ENDPOINTS}
+        label="Return to Configured Endpoints"
+        className={classes.link}
       />
       <PageLayout>
         <div className={classes.iconContainer}>

@@ -148,7 +148,7 @@ const styles = (theme: Theme) =>
         "& .left-logo": {
           "& .min-icon": {
             color: "white",
-            fontSize: 28,
+            fontSize: 16,
             width: 108,
           },
           marginBottom: 10,
@@ -618,9 +618,6 @@ const Login = ({
         <Grid container className={classes.loginContainer}>
           <Grid item className="consoleTextBanner" xs={12}>
             <div className="left-items">
-              <div className="left-logo">
-                MEMO
-              </div>
               <div className="text-line2">{consoleText}</div>
               <div className="text-line3">Memolabs Storage</div>
             </div>

@@ -26,12 +26,14 @@ import { SupportMenuIcon } from "../../../icons/SidebarMenus";
 import withSuspense from "../Common/Components/withSuspense";
 
 const Inspect = withSuspense(React.lazy(() => import("./Inspect")));
+const Register = withSuspense(React.lazy(() => import("../Support/Register")));
 
 const Tools = () => {
   return (
     <Router history={history}>
       <Switch>
         <Route path={IAM_PAGES.TOOLS} exact component={ToolsList} />
+        <Route path={IAM_PAGES.REGISTER_SUPPORT} exact component={Register} />
         <Route
           path={IAM_PAGES.CALL_HOME}
           exact

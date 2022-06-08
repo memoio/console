@@ -47,6 +47,11 @@ interface IModalProps {
 const styles = (theme: Theme) =>
   createStyles({
     ...deleteDialogStyles,
+    root: {
+      "& .MuiPaper-root": {
+        padding: "0 2rem 2rem 1rem",
+      },
+    },
     content: {
       padding: 25,
       paddingBottom: 0,
@@ -134,7 +139,6 @@ const ModalWrapper = ({
         <div className={classes.closeContainer}>
           <IconButton
             aria-label="close"
-            id={"close"}
             className={classes.closeButton}
             onClick={onClose}
             disableRipple

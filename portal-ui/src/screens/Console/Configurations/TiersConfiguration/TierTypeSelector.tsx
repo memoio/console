@@ -35,14 +35,8 @@ const TierTypeSelector = ({ history }: ITypeTiersConfig) => {
 
   return (
     <Fragment>
-      <PageHeader
-        label={
-          <Fragment>
-            <BackLink to={IAM_PAGES.TIERS} label="Tier Types" />
-          </Fragment>
-        }
-        actions={<React.Fragment />}
-      />
+      <PageHeader label="Tier Configuration" />
+      <BackLink to={IAM_PAGES.TIERS} label="Return to Configured Tiers" />
 
       <PageLayout>
         <Box

@@ -31,6 +31,7 @@ import { Button, LinearProgress } from "@mui/material";
 import TableWrapper from "../Common/TableWrapper/TableWrapper";
 import api from "../../../common/api";
 import PageHeader from "../Common/PageHeader/PageHeader";
+import { Link } from "react-router-dom";
 import { setErrorSnackMessage, setSnackBarMessage } from "../../../actions";
 import { ErrorResponseHandler } from "../../../common/types";
 import CodeMirrorWrapper from "../Common/FormComponents/CodeMirrorWrapper/CodeMirrorWrapper";
@@ -332,11 +333,13 @@ const PolicyDetails = ({
       <PageHeader
         label={
           <Fragment>
-            <BackLink to={IAM_PAGES.POLICIES} label={"Policy"} />
+            <Link to={IAM_PAGES.POLICIES} className={classes.breadcrumLink}>
+              Policy
+            </Link>
           </Fragment>
         }
       />
-
+      <BackLink to={IAM_PAGES.POLICIES} label={"Return to Policies"} />
       <PageLayout className={classes.pageContainer}>
         <Grid item xs={12}>
           <ScreenTitle
