@@ -349,7 +349,7 @@ const ListBuckets = ({
                     title={"Buckets"}
                     help={
                       <Fragment>
-                        MinIO uses buckets to organize objects. A bucket is
+                        Memo uses buckets to organize objects. A bucket is
                         similar to a folder or directory in a filesystem, where
                         each bucket can hold an arbitrary number of objects.
                         <SecureComponent
